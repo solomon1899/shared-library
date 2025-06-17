@@ -1,6 +1,6 @@
-test_job:
+unit_test:
   image: maven:3-openjdk-17
-  stage: UnitTest
+  stage: test
   script: "mvn test"
   artifacts:
     paths:
