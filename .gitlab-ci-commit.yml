@@ -3,9 +3,9 @@ commit-version-update:
    image: alpine:latest
    before_script:
       - apk add --no-cache git openssh
-      - git config --global user.email "oussamaCI@gmail.com"
-      - git config --global user.name "Oussama CI"
-      - git remote set-url origin https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/estsb3/ocp-zynerator.gi.git
+      - git config --global user.email "soukhorch@gmail.com"
+      - git config --global user.name "solomon1899"
+      - git remote set-url origin https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/solomon1899/ocp-pfe.git
    script:
       - git checkout "$CI_COMMIT_BRANCH"
       - git add ${PROJECT_DIR}/pom.xml 
