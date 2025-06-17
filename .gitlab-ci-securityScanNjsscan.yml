@@ -1,0 +1,14 @@
+njsscan:
+  stage: security
+  image: python
+  before_script:
+    - pip3 install njsscan
+    - cd ${PROJECT_DIR_FRONT}
+  script:
+    - njsscan --exit-warning . --sarif -o njsscan.sarif
+  artifacts:
+    when: always
+    paths:
+      - ${PROJECT_DIR_FRONT}/njsscan.sarif
+    expire_in: 1h 
+  allow_failure: true

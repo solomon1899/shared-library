@@ -1,0 +1,16 @@
+compile_backend:
+  image: maven:3.9.8
+  stage: compile
+  script:
+    - echo "Packaging the project..."
+    - cd ${PROJECT_DIR}
+    - mvn clean package -DskipTests
+    - mvn compile -DskipTests
+  artifacts:
+    paths:
+      - ${PROJECT_DIR}/target/*.jar
+    expire_in: 1h
+
+
+
+

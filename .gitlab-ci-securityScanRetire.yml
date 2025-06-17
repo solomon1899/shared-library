@@ -1,0 +1,14 @@
+retire:
+  stage: security
+  image: node:18-bullseye
+  before_script:
+    - npm install -g retire
+    - cd ${PROJECT_DIR_FRONT}
+  script:
+    - retire --path . --outputformat json --outputpath retire.json
+  artifacts:
+    when: always
+    paths:
+      - ${PROJECT_DIR_FRONT}/retire.json
+    expire_in: 1h 
+  allow_failure: true

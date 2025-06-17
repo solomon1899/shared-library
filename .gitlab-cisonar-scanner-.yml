@@ -1,0 +1,11 @@
+sonarqube-check:
+  stage: test  
+  tags:
+    - my_windows
+  script:
+    - cd ${PROJECT_DIR_FRONT}
+    - npm install -g sonarqube-scanner
+    - npx sonar-scanner
+  allow_failure: true 
+  only:
+    - main

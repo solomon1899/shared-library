@@ -1,0 +1,14 @@
+gitleaks:
+  stage: security
+  image:
+    name: zricethezav/gitleaks
+    entrypoint: [""]
+  script: 
+    - gitleaks detect --source . --verbose --report-path gitleaks.json
+  artifacts:
+    when: always
+    paths:
+      - gitleaks.json
+    expire_in: 1h 
+  allow_failure: true
+

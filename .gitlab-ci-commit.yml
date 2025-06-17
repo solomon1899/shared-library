@@ -1,0 +1,14 @@
+commit-version-update:
+   stage: commit
+   image: alpine:latest
+   before_script:
+      - apk add --no-cache git openssh
+      - git config --global user.email "oussamaCI@gmail.com"
+      - git config --global user.name "Oussama CI"
+      - git remote set-url origin https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/estsb3/ocp-zynerator.gi.git
+   script:
+      - git checkout "$CI_COMMIT_BRANCH"
+      - git add ${PROJECT_DIR}/pom.xml 
+      - git add ${PROJECT_DIR_FRONT}/package.json
+      - git commit -m "new version [skip ci]" || echo "No changes to commit"
+      - git push origin "$CI_COMMIT_BRANCH"

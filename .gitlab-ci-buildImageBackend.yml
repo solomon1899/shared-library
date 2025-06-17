@@ -1,0 +1,16 @@
+build_image_backend:
+    stage: build_image
+    #needs: ["compile_backend"]
+    image: docker:24
+    when: always
+    services:
+    - docker:24-dind
+    before_script:
+      - cd ${PROJECT_DIR}
+      - echo "$DOCKER_TOKEN" | docker login --username "$DOCKER_USER" --password-stdin
+    script:
+      # Build the Docker image
+      - docker build -t ${IMAGE_NAME_BACKEND} .
+      # Push the Docker image to the registry
+      - docker push ${IMAGE_NAME_BACKEND}
+

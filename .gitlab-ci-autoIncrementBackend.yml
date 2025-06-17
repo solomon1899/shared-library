@@ -1,0 +1,19 @@
+auto-increment-version-b:
+  stage: build
+  image: maven:3.9.8
+  script:
+    - cd backend-ms1
+    - echo "Increment build version"
+    - mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
+    - VERSION_BACKEND_=$(grep '<version>' pom.xml | head -n 2 | tail -n 1 | sed -E 's/.*<version>([^<]+)<\/version>.*/\1/')
+    - cd ..
+    - echo "VERSION_BACKEND=${VERSION_BACKEND_}" > vars.env
+  artifacts:
+    paths:
+      - backend-ms1/pom.xml
+      - vars.env
+    reports:
+      dotenv: vars.env        
+    expire_in: 1 hour 
+  only:
+    - main

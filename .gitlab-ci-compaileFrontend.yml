@@ -1,0 +1,12 @@
+  compile_frontend:
+    stage: compile
+    image: node:18-bullseye
+    before_script:
+      - cd ${PROJECT_DIR_FRONT}
+      - npm ci  
+    script:
+      - npm run build
+    artifacts:
+      paths:
+        - ${PROJECT_DIR_FRONT}/.next  
+      expire_in: 1h

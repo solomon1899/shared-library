@@ -1,0 +1,22 @@
+extract-version:
+  stage: extractVersion
+  image: alpine  
+  script:
+    - apk add --no-cache jq  
+
+    # Extract backend version
+    - cd backend-ms1
+    - VERSION_BACKEND=$(grep -m1 '<version>' pom.xml | sed -E 's/.*<version>([^<]+)<\/version>.*/\1/')
+    - IMAGE_NAME_BACKEND="$VERSION_BACKEND-$CI_PIPELINE_IID"
+    - echo "IMAGE_NAME_BACKEND=$IMAGE_NAME_BACKEND" >> build.env
+    - cd ..
+
+    # Extract frontend version
+    - cd frontend
+    - VERSION_FRONTEND=$(jq -r '.version' package.json)
+    - IMAGE_NAME_FRONTEND="$VERSION_FRONTEND-$CI_PIPELINE_IID"
+    - echo "IMAGE_NAME_FRONTEND=$IMAGE_NAME_FRONTEND" > build.env
+      
+  artifacts:
+    reports:
+      dotenv: build.env

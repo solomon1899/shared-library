@@ -1,0 +1,14 @@
+semgrep:
+  stage: security
+  image: returntocorp/semgrep
+  variables:
+    SEMGREP_RULES: p/javascript
+  script:
+    - cd ${PROJECT_DIR_FRONT}
+    - semgrep ci --json --output semgrep.json
+    
+  artifacts:
+    when: always
+    paths: 
+      - ${PROJECT_DIR_FRONT}/semgrep.json
+  allow_failure: true

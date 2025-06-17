@@ -1,0 +1,12 @@
+upload_report:
+  stage: upload_report
+  when: manual
+  tags:
+    - ${YOUR_RUNNER}  
+  needs: ['trivy', 'gitleaks', 'njsscan','retire','semgrep']
+  rules:
+    - if: '$UPLOAD_REPORT_ENABLED == "true"'
+      when: always
+  script:
+    - '& "$env:PYTHON_PATH" upload-security-scan.py --password "$env:DEFECTDOJO_PASS" -f gitleaks.json frontend/retire.json frontend/semgrep.json frontend/njsscan.sarif TrivyScanImageBackend.json TrivyScaneImageFrontend.json -st "Gitleaks Scan" "Retire.js Scan" "Semgrep JSON Report" "SARIF" "Trivy Scan" "Trivy Scan" --url "http://127.0.0.1:8080"'
+  allow_failure: true

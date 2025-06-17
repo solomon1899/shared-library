@@ -1,0 +1,25 @@
+auto-increment-version-f:
+  stage: build
+  image: alpine
+  needs:
+    - job: auto-increment-version-b
+      artifacts: true
+  variables:
+    GIT_STRATEGY: fetch
+  before_script:
+    - apk add --no-cache nodejs npm jq
+    - cd ${PROJECT_DIR_FRONT}
+  script:
+    - npm version patch --no-git-tag-version
+    - VERSION_FRONTEND_=$(jq -r '.version' package.json)
+    - cd ..
+    - echo "VERSION_FRONTEND=${VERSION_FRONTEND_}" >> vars.env
+  artifacts:
+    paths:
+      - ${PROJECT_DIR_FRONT}/package.json
+      - vars.env
+    reports:
+      dotenv: vars.env        
+    expire_in: 1h
+  only:
+    - main

@@ -1,0 +1,8 @@
+deployment:
+  tags:
+    - ${YOUR_RUNNER}  
+  stage: deployment
+  script: 
+      - cd deploy
+      - docker-compose -f docker-compose.yml up -d
+ 
